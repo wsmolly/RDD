@@ -1,0 +1,42 @@
+{\rtf1\fs24
+\pard\qc
+Table 3 Panel B: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism\par
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx1872\clbrdrt\brdrs\cellx3744\clbrdrt\brdrs\cellx5616\clbrdrt\brdrs\cellx7488
+\ql \cell\qc (1)\cell\qc (2)\cell\qc (3)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx1872\cellx3744\cellx5616\cellx7488
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx1872\clbrdrb\brdrs\cellx3744\clbrdrb\brdrs\cellx5616\clbrdrb\brdrs\cellx7488
+\ql VARIABLES\cell\qc 1\cell\qc 2\cell\qc 3\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx1872\cellx3744\cellx5616\cellx7488
+\ql \cell\qc \cell\qc \cell\qc \cell\row
+\ql bac1\cell\qc 0.177\cell\qc -0.194\cell\qc 6.124\cell\row
+\ql \cell\qc (0.201)\cell\qc (0.382)\cell\qc (8.113)\cell\row
+\ql bac1sq = o,\cell\qc \cell\qc \cell\qc -\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\row
+\ql DUI\cell\qc -0.0217***\cell\qc -0.0628*\cell\qc 0.379\cell\row
+\ql \cell\qc (0.00558)\cell\qc (0.0350)\cell\qc (0.422)\cell\row
+\ql DUI_bac1\cell\qc \cell\qc 0.530\cell\qc -10.66\cell\row
+\ql \cell\qc \cell\qc (0.449)\cell\qc (10.60)\cell\row
+\ql bac1sq\cell\qc \cell\qc \cell\qc -45.74\cell\row
+\ql \cell\qc \cell\qc \cell\qc (58.70)\cell\row
+\ql bac1sq_DUI\cell\qc \cell\qc \cell\qc 71.86\cell\row
+\ql \cell\qc \cell\qc \cell\qc (69.16)\cell\row
+\ql white\cell\qc 0.0156***\cell\qc 0.0156***\cell\qc 0.0156***\cell\row
+\ql \cell\qc (0.00383)\cell\qc (0.00383)\cell\qc (0.00383)\cell\row
+\ql male\cell\qc 0.0349***\cell\qc 0.0349***\cell\qc 0.0349***\cell\row
+\ql \cell\qc (0.00317)\cell\qc (0.00317)\cell\qc (0.00317)\cell\row
+\ql aged\cell\qc -0.000761***\cell\qc -0.000763***\cell\qc -0.000764***\cell\row
+\ql \cell\qc (0.000115)\cell\qc (0.000115)\cell\qc (0.000115)\cell\row
+\ql acc\cell\qc 0.00416\cell\qc 0.00408\cell\qc 0.00409\cell\row
+\ql \cell\qc (0.00496)\cell\qc (0.00496)\cell\qc (0.00496)\cell\row
+\ql year\cell\qc -0.00299***\cell\qc -0.00299***\cell\qc -0.00299***\cell\row
+\ql \cell\qc (0.000567)\cell\qc (0.000567)\cell\qc (0.000567)\cell\row
+\ql Constant\cell\qc 6.087***\cell\qc 6.103***\cell\qc 5.890***\cell\row
+\ql \cell\qc (1.136)\cell\qc (1.137)\cell\qc (1.172)\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 46,957\cell\qc 46,957\cell\qc 46,957\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx1872\clbrdrb\brdrs\cellx3744\clbrdrb\brdrs\cellx5616\clbrdrb\brdrs\cellx7488
+\ql R-squared\cell\qc 0.005\cell\qc 0.005\cell\qc 0.005\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}

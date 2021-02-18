@@ -1,0 +1,131 @@
+% Causal Inference-Replication of Hansen (2015)
+% Wen-Hsin (Molly) Chang
+% Date: 2021.2.15
+
+1. Create new Github repo named ” RDD”
+https://github.com/wsmolly/RDD
+
+2. Summary of the paper: The research question of this paper is whether the punishment severity has on commission of future crime. The author uses the data from the administrative records of drinking under influence (DUI) stops from the states of Washington from 1995 to 2011. The research design mainly follows the regression discontinuity approach, and the author relies upon the reasoning that drivers and officers are unable to manipulate the blood alcohol content (BAC). In conclusion, the author suggests that harsher punishment associated with BAC limits reduce future drunk driving.
+
+3. Create a dummy equaling 1 if bac>=0.08 and 0 otherwise.
+    *use https://github.com/scunning1975/causal-inference-class/raw/master/hansen_dwi, clear
+	*gen DUI=1 if bac1>=0.08
+    *replace DUI=0 if DUI==.
+
+4.	Replication of Figure 1: sorting the running variable  
+    histogram bac1, bin(150) xline(0.08)
+    graph export hitogram.png, width(500) replace
+![BAC distribution](hitogram.png)
+There seems to be no evidence for sorting on the running variable. Specifically, the distribution of bac1 is smooth around the 0.08 threshold. The result gives credence to Hansen’s regression discontinuity design.
+
+     
+5.	Replication of Table2 :checking for covariate balance 
+
+    ssc install outreg2
+    *gen DUI_bac1 = bac1*DUI
+    reg male bac1 DUI DUI_bac1 if bac1>0.08-0.05& bac1<0.08+0.05,cluster(bac1)
+     outreg2 using Table2.doc, replace ctitle(Male) label
+
+    reg white bac1 DUI DUI_bac1 if bac1>0.08-0.05& bac1<0.08+0.05,cluster(bac1)
+     outreg2 using Table2.doc, append ctitle(white) label
+
+    reg aged bac1 DUI DUI_bac1 if bac1>0.08-0.05& bac1<0.08+0.05,cluster(bac1)
+     outreg2 using Table2.doc, append ctitle(aged) label
+
+    reg acc bac1 DUI DUI_bac1 if bac1>0.08-0.05& bac1<0.08+0.05,cluster(bac1)
+    outreg2 using Table2.doc, append ctitle(acc) label
+
+We can see that the coefficient of DUI is significant for Age and Accident and insignificant for Male and White. Therefore, covariate balance seems to hold under Male and White, while it does not hold for Age and Accident. The result is different from Hansen’s original result. I suspect one of the reasons may be the difference between our data set and Hansen’s original one.
+
+
+6.	Replication of Figure2 : BAC and characteristic
+*Linear
+    *ssc install cmogram
+    quietly cmogram acc bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter lfitci title(  Panel A. Accident at scene) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+	graph save Fig2.ACC.gph
+	
+    quietly cmogram male bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter lfitci title(Panel B. Male) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.male.gph
+	
+    quietly cmogram aged bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter lfitci title(Panel C. Age) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.age.gph
+	
+
+    quietly cmogram white bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter lfitci title(Panel D. White) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.white.gph
+	 
+    graph combine Fig2.ACC.gph Fig2.male.gph Fig2.age.gph Fig2.white.gph, title(Linear Fit) 
+	graph export "C:\Users\user\Desktop\markstat\Fig2_linear.png", as(png) name("Graph")
+
+![Linear Fit](Fig2_linear.png)
+
+*quadratic
+    quietly cmogram acc bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter qfitci title(Panel A. Accident at scene) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+	graph save Fig2.ACC_q.gph
+  
+    quietly cmogram male bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter qfitci title(Panel B. Male) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.male_q.gph
+
+    quietly cmogram aged bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter qfitci title(Panel C. Age) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.age_q.gph
+
+    quietly cmogram white bac1 if bac1 < 0.2, lineat(0.08 0.15) cutpoint(0.08)scatter qfitci title(Panel D. White) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig2.white_q.gph
+
+    graph combine Fig2.ACC_q.gph Fig2.male_q.gph Fig2.age_q.gph Fig2.white_q.gph, title(Quadratic Fit) 
+    graph export "C:\Users\user\Desktop\markstat\Fig2_Qudratic.png", as(png) name("Graph")
+
+![Quadratic Fit](Fig2_Qudratic.png))
+
+Although two of the variables violate covariate balance in our replication of table 2, the replication results of Figure 2 above seem quite similar to Hensen’s paper. Hensen does not use quadratic fits in his paper, but I suspect the quadratic model can serve a betterpurpose in projection.
+
+*Q7.Table3 Panel A:recidivism outcome (0.03 < bac1 < 0.13)
+
+    reg recid bac1 DUI  white male age acc year if bac1>0.03& bac1<0.13,robust 
+    outreg2 using Table3A.doc, replace title("Table 3 Panel A: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(1) label
+
+    reg recid bac1 DUI DUI_bac1 white male age acc  year if bac1>0.03& bac1<0.13,robust 
+    outreg2 using Table3A.doc, append title("Table 3 Panel A: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(2) label
+
+    *gen bac1sq_DUI= bac1*bac1*DUI
+    reg recid  bac1 DUI DUI_bac1 bac1sq bac1sq_DUI white male age acc year if bac1>0.03& bac1<0.13,robust 
+    outreg2 using Table3A.doc, append title("Table 3 Panel A: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(3) label
+
+
+*Q7.Table3 Panel B:recidivism outcome (0.055 < bac1 < 0.105)
+
+    reg recid bac1 DUI white male age acc year if bac1>0.055& bac1<0.105,robust 
+    outreg2 using Table3B.doc, replace title("Table 3 Panel B: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(1) label
+
+    reg recid bac1 DUI DUI_bac1 white male age acc year if bac1>0.055& bac1<0.105,robust 
+    outreg2 using Table3B.doc, append title("Table 3 Panel B: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(2) label
+
+    gen bac1sq=bac1*bac1
+    reg recid bac1 bac1sq DUI DUI_bac1 bac1sq bac1sq_DUI white male age acc year if bac1>0.055& bac1<0.105,robust 
+    outreg2 using Table3B.doc, append title("Table 3 Panel B: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism") ctitle(3) label
+
+In Panel A, the coefficient of DUI is significantly negative in column 1 and 2, indicating that there is a decrease in recidivism due to the punishment of exceeding the 0.08 BAC threshold. However, it is interesting that the coefficient of DUI becomes insignificant when including quadratic interaction. A further examination will be needed to determine whether it is appropriate to model the punishment effect using quadratic approximation. Overall, the results indicate the effectiveness of 0.08 BAC punishment on recidivism at least in the linear case. 
+
+As for Panel B, we can see that the coefficient of DUI becomes marginally significant in column (2), where we control for the interaction between bac1 and DUI, and insignificant in column (3), where we control for the quadratic interaction between bac1 and DUI. According to Table 3, we may infer that the regression discontinuity design is sensible to the bandwidth, but column (1) closely replicates Hensen’s original result.
+
+
+
+8.	Replication of Figure3: BAC and Recidivism
+    quietly cmogram recid bac1 if bac1 < 0.15, lineat(0.08) cutpoint(.08)scatter lfit title(Panel A. BAC and Recidivism-Linear ) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig3.Linear.gph
+
+    quietly cmogram recid bac1 if bac1 < 0.15, lineat(0.08) cutpoint(.08)scatter qfit title(Panel B. BAC and Recidivism-Quadratic ) histopts(bin(30)) graphopts(xtitle("BAC") ytitle(""))
+    graph save Fig3.Quadratic.gph
+
+    graph combine Fig3.Linear.gph Fig3.Quadratic.gph, rows(2) cols(1) 
+    graph export "C:\Users\user\Desktop\markstat\Fig3_Recidivism.png", as(png) name("Graph")
+
+![Quadratic Fit](Fig3_Recidivism.png))
+
+Our replication of Figure 3 shows a salient plunge in recidivism either using linear fit or quadratic fit. The result is qualitatively similar to that of Hensen’s, and indicates that the BAC 0.08 punishment threshold is effective in reducing recidivism. However, it is also worth noting that when offenders are way above the BAC 0.08 punishment threshold, they become more likely to recidivate
+
+9.	This replication exercise is very helpful to understand the intuition and the mechanism behind the RDD design. Moreover, I benefit from getting more familiar with STATA commands. Consistent with Hensen’s hypothesis, I expect that DUI punishment is effective in reducing recidivism. However, the replication of the main table(Table 3) provides preliminary evidence showing that Hensen’s original conclusion may be sensible to model specification (linear vs quadratic), and the underlying assumption of covariate balance may fail for some of the variables in our dataset. Overall, my results mostly support Hansen’s findings in linear model specification. 
+
+
+
+

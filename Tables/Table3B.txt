@@ -1,0 +1,33 @@
+Table 3 Panel B: Regression Discontinuity Estimates for the Effect of Exceeding the 0.08 BAC Threshold on Recidivism				
+		(1)	(2)	(3)
+VARIABLES	LABELS	1	2	3
+				
+bac1	bac1	0.177	-0.194	6.124
+		(0.201)	(0.382)	(8.113)
+o.bac1sq	bac1sq = o,			-
+				
+DUI	DUI	-0.0217***	-0.0628*	0.379
+		(0.00558)	(0.0350)	(0.422)
+DUI_bac1	DUI_bac1		0.530	-10.66
+			(0.449)	(10.60)
+bac1sq	bac1sq			-45.74
+				(58.70)
+bac1sq_DUI	bac1sq_DUI			71.86
+				(69.16)
+white	white	0.0156***	0.0156***	0.0156***
+		(0.00383)	(0.00383)	(0.00383)
+male	male	0.0349***	0.0349***	0.0349***
+		(0.00317)	(0.00317)	(0.00317)
+aged	aged	-0.000761***	-0.000763***	-0.000764***
+		(0.000115)	(0.000115)	(0.000115)
+acc	acc	0.00416	0.00408	0.00409
+		(0.00496)	(0.00496)	(0.00496)
+year	year	-0.00299***	-0.00299***	-0.00299***
+		(0.000567)	(0.000567)	(0.000567)
+Constant	Constant	6.087***	6.103***	5.890***
+		(1.136)	(1.137)	(1.172)
+				
+Observations		46,957	46,957	46,957
+R-squared		0.005	0.005	0.005
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				
